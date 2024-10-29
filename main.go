@@ -8,6 +8,7 @@ import (
 	"github.com/ShardenduMishra22/GoLangToDoList/database"
 	"github.com/ShardenduMishra22/GoLangToDoList/routes"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -26,9 +27,15 @@ func main() {
 
 	// Connect to the database and get the collection
 	collection = database.ConnectToDatabase()
-
+	
 	app := fiber.New()
 
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://example.com, http://anotherexample.com", // Change to your frontend origins
+		AllowMethods: "GET,POST,PUT,DELETE",                           // Allowed methods
+		AllowHeaders: "Origin, Content-Type, Accept",                  // Allowed headers
+	}))
+	
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
 			"message1": "Welcome to ToDo List Project",
@@ -45,7 +52,7 @@ func main() {
 
 	if os.Getenv("ENV") == "production" {
 		app.Static("/", "./client/dist")
-	}	
+	}
 
 	log.Fatal(app.Listen("0.0.0.0:" + port))
 }
