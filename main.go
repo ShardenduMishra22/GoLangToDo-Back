@@ -31,8 +31,8 @@ func main() {
 	app := fiber.New()
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "http://example.com, http://anotherexample.com", // Change to your frontend origins
-		AllowMethods: "GET,POST,PUT,DELETE",                           // Allowed methods
+		AllowOrigins: "https://golangtodo-front.onrender.com", // Change to your frontend origins
+		AllowMethods: "GET,POST,PATCH,DELETE,PUT",                           // Allowed methods
 		AllowHeaders: "Origin, Content-Type, Accept",                  // Allowed headers
 	}))
 	
